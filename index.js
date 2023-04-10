@@ -1,8 +1,8 @@
 const {isBassoMC} = require("./Bassomc")
-const Test = require("./test")
+const Schema = require("./Schema")
 
 module.exports = {
-    Test,
+    Schema,
     isBassoMC,
 };
 
