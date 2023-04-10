@@ -1,4 +1,5 @@
 function Schema(schema) {
+  console.log(schema)
   const keys = Object.keys(schema);
   console.log(keys)
   for (const key of keys) {
