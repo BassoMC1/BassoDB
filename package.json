@@ -1,0 +1,22 @@
+{
+  "name": "bassodb",
+  "version": "1.0.0",
+  "description": "This is a test database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BassoMC1/BassoDB.git"
+  },
+  "keywords": [
+    "BassoDB"
+  ],
+  "author": "BassoMC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BassoMC1/BassoDB/issues"
+  },
+  "homepage": "https://github.com/BassoMC1/BassoDB#readme"
+}
