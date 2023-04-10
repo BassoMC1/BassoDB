@@ -1,13 +1,8 @@
-function isBassoMC(string) {
-    return string === "BassoMC";
-}
-
-function isTest() {
-    console.log("Test❤")
-}
-
+const {isTest, isBassoMC} = require("./Bassomc")
+const Test = require("./test")
 
 module.exports = {
     isTest,
-    isBassoMC
-}
+    Test,
+    isBassoMC,
+};
