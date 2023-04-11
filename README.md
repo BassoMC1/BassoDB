@@ -61,10 +61,40 @@ output
 
 
 
-text.txt file example:
+text.txt file:
 ```
 name>age>email,BassoMC>17>test@test.com
 name>age>email,jaacob>16>test@test.com
 name>age>email,dibus>19>test@test.com
 ```
-
+Removing data:
+```javascript
+DB.RemoveOne({ name: 'jaacob' }, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+});
+```
+text.txt file:
+```
+name>age>email,BassoMC>17>test@test.com
+name>age>email,dibus>19>test@test.com
+```
+Create new data:
+```javascript
+DB.create({ name: "jaacob", age: 25, email: "test@test.com"}, (err, result) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
+```
+text.txt file:
+```
+name>age>email,BassoMC>17>test@test.com
+name>age>email,dibus>19>test@test.com
+name>age>email,jaacob>25>test@test.com
+```
