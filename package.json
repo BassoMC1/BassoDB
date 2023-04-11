@@ -1,7 +1,7 @@
 {
   "name": "bassodb",
-  "version": "0.0.1",
-  "description": "This is a test database",
+  "version": "0.0.2",
+  "description": "This is a Database that use txt files",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
