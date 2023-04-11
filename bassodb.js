@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function model(filename, Schema) {
+function model(filename, schema) {
   const model = {};
 
   model.findOne = function(query, callback) {
@@ -11,7 +11,7 @@ function model(filename, Schema) {
       const values = myArray[1].split(">");
       const bassodb = {};
       for (let i = 0; i < keys.length; i++) {
-        bassodb[keys[i]] = values[i].replace(/\r/g, '');
+        bassodb[keys[i]] = values[i]
       }
       if (Object.keys(query).every((key) => bassodb[key] === query[key])) {
         return callback(null, bassodb);
@@ -28,7 +28,7 @@ function model(filename, Schema) {
       const values = myArray[1].split(">");
       const bassodb = {};
       for (let i = 0; i < keys.length; i++) {
-        bassodb[keys[i]] = values[i].replace(/\r/g, '');
+        bassodb[keys[i]] = values[i]
       }
       if (Object.keys(query).every((key) => bassodb[key] === query[key])) {
         // Update the data in the file
@@ -43,6 +43,49 @@ function model(filename, Schema) {
     }
     callback("Document not found", null);
   };
+
+  model.create = function(data, callback) {
+    const validation = validateData(data, schema.getSchema());
+    if (validation.valid) {
+      const line = convertToLine(data);
+      fs.appendFile(filename, line, { encoding: 'utf8', flag: 'a' }, (err) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, line);
+        }
+      });
+    } else {
+      callback(validation.errors);
+    }
+  };
+
+  function validateData(data, schema) {
+    const errors = [];
+    let valid = true;
+    for (const fieldName in schema) {
+      if (schema[fieldName].required && !data[fieldName]) {
+        valid = false;
+        errors.push(`${fieldName} is required`);
+      } else if (data[fieldName] && typeof data[fieldName] !== schema[fieldName].type) {
+        valid = false;
+        errors.push(`${fieldName} is not of type ${schema[fieldName].type}`);
+      }
+    }
+    return { valid, errors };
+  }
+
+  function convertToLine(data) {
+    let keys = '';
+    let values = '';
+    for (const fieldName in data) {
+      keys += `${fieldName}>`;
+      values += `${data[fieldName]}>`;
+    }
+    return `\n${keys.slice(0, -1)},${values.slice(0, -1)}`;
+  }
+
+  
   
   return model;
 }
