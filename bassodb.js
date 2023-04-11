@@ -2,7 +2,7 @@ const fs = require('fs');
 
 function model(filename, Schema) {
     const model = {};
-    console.log(Schema)
+    //console.log(Schema)
     model.findOne = function(query) {
        // console.log(`Finding one document in ${filename} with query ${query}`);
       
