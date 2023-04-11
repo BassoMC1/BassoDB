@@ -1,9 +1,10 @@
-const {isBassoMC} = require("./Bassomc")
+const {model, ReadData} = require("./bassodb")
 const Schema = require("./Schema")
 
 module.exports = {
     Schema,
-    isBassoMC,
+    model,
+    ReadData,
 };
 
 

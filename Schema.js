@@ -1,9 +1,14 @@
-function Schema(schema) {
-  console.log(schema)
-  const keys = Object.keys(schema);
-  console.log(keys)
-  for (const key of keys) {
-    console.log(key, schema[key].type, schema[key].required);
+class Schema {
+  constructor() {
+    this.schema = {};
+  }
+
+  addField(fieldName, fieldOptions = {}) {
+    this.schema[fieldName] = fieldOptions;
+  }
+
+  getSchema() {
+    return this.schema;
   }
 }
 
