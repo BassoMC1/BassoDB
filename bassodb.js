@@ -6,12 +6,14 @@ function model(filename, schema) {
   model.findOne = function(query, callback) {
     const lines = fs.readFileSync(filename, 'utf8').split('\n');
     for (let i = 0; i < lines.length; i++) {
-      const myArray = lines[i].split(",");
-      const keys = myArray[0].split(">");
-      const values = myArray[1].split(">");
       const bassodb = {};
-      for (let i = 0; i < keys.length; i++) {
-        bassodb[keys[i]] = values[i]
+      const myArray = lines[i].split(",");
+      if (myArray.length >= 2) {
+        const keys = myArray[0].split(">");
+        const values = myArray[1].split(">");
+        for (let i = 0; i < keys.length; i++) {
+          bassodb[keys[i]] = values[i]
+        }
       }
       if (Object.keys(query).every((key) => bassodb[key] === query[key])) {
         return callback(null, bassodb);
@@ -23,12 +25,15 @@ function model(filename, schema) {
   model.UptateData = function(query, update, callback) {
     const lines = fs.readFileSync(filename, 'utf8').split('\n');
     for (let i = 0; i < lines.length; i++) {
-      const myArray = lines[i].split(",");
-      const keys = myArray[0].split(">");
-      const values = myArray[1].split(">");
       const bassodb = {};
-      for (let i = 0; i < keys.length; i++) {
-        bassodb[keys[i]] = values[i]
+      const myArray = lines[i].split(",");
+      if (myArray.length >= 2) {
+        const keys = myArray[0].split(">");
+        const values = myArray[1].split(">");
+        
+        for (let i = 0; i < keys.length; i++) {
+          bassodb[keys[i]] = values[i]
+        }
       }
       if (Object.keys(query).every((key) => bassodb[key] === query[key])) {
         // Update the data in the file
@@ -66,10 +71,10 @@ function model(filename, schema) {
     for (const fieldName in schema) {
       if (schema[fieldName].required && !data[fieldName]) {
         valid = false;
-        errors.push(`${fieldName} is required`);
+        errors.push(`[BassoDB] - ${fieldName} is required`);
       } else if (data[fieldName] && typeof data[fieldName] !== schema[fieldName].type) {
         valid = false;
-        errors.push(`${fieldName} is not of type ${schema[fieldName].type}`);
+        errors.push(`[BassoDB] - ${fieldName} is not of type ${schema[fieldName].type}`);
       }
     }
     return { valid, errors };
@@ -85,8 +90,34 @@ function model(filename, schema) {
     return `\n${keys.slice(0, -1)},${values.slice(0, -1)}`;
   }
 
-  
-  
+  model.RemoveOne = function(query, callback) {
+    const lines = fs.readFileSync(filename, 'utf8').split('\n');
+    let newData = '';
+    for (let i = 0; i < lines.length; i++) {
+        const myArray = lines[i].split(",");
+        if (myArray.length > 1) {
+            const keys = myArray[0].split(">");
+            const values = myArray[1].split(">");
+            const bassodb = {};
+            for (let i = 0; i < keys.length; i++) {
+                bassodb[keys[i]] = values[i];
+            }
+            if (Object.keys(query).every((key) => bassodb[key] === query[key])) {
+                // Remove that line for txt file
+                lines.splice(i, 1);
+                i--;
+            } else {
+                newData += lines[i] + '\n';
+            }
+        }
+    }
+    // update file with non-matching records and remove empty lines
+    fs.writeFileSync(filename, newData.replace(/^\s*[\r\n]/gm, ''));
+    callback(null, "Removing data");
+  }
+
+
+
   return model;
 }
 
