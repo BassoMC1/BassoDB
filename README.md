@@ -22,10 +22,17 @@ const DB = bassodb.model('text.txt', UserSchema);
 module.exports = DB;
 
 ```
-
+Get Data
 ```javascript
 const DB = require("./index");
-const bassodb = DB.findOne({name: "BassoMC"})
+
+DB.findOne({ name: "BassoMC" }, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+});
 
 console.log(bassodb)
 ```
@@ -33,9 +40,28 @@ output
 ```
 { name: 'BassoMC', age: '17', email: 'test@test.com' }
 ```
+Uptate Data
+```javascript
+const DB = require("./index");
+
+DB.UptateData({ name: "BassoMC" }, { email: "BassoMC@gmail.com", age: 18, }, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+});
+```
+output
+```
+{ name: 'BassoMC', age: 18, email: 'BassoMC@gmail.com' }
+```
 
 
-text.txt file 
+
+
+
+text.txt file example:
 ```
 name>age>email,BassoMC>17>test@test.com
 name>age>email,jaacob>16>test@test.com
