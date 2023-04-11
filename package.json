@@ -1,6 +1,6 @@
 {
   "name": "bassodb",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "This is a Database that use txt files",
   "main": "index.js",
   "scripts": {
